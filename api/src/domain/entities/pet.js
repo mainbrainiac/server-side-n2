@@ -1,4 +1,4 @@
-class Pet {
+export default class Pet {
   constructor(codigo_pet, nome_pet, genero_pet) {
     if (codigo_pet === null || codigo_pet === undefined) {
       throw new Error('O código do pet é obrigatório.');
@@ -8,5 +8,3 @@ class Pet {
     this.genero_pet = genero_pet;
   }
 }
-
-module.exports = Pet;

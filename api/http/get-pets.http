@@ -1,0 +1,2 @@
+### Carregar todos os pets
+GET http://localhost:3000/api/pets

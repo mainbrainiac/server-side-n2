@@ -1,30 +1,31 @@
-import connect from '../../infra/connection.js'
+import executeQuery from '../../infra/utils.js';
+import Pet from '../../domain/entities/pet.js';
 
 const PetRepository = {
   create: async function(petData) {
     try {
       const newPet = new Pet(petData.codigo_pet, petData.nome_pet, petData.genero_pet);
       let sql = "INSERT INTO pet (codigo_pet, nome_pet, genero_pet) VALUES(?, ?, ?);";
-      let values = [newPet.codigo_pet, newPet.nome_pet, newPet.genero_pet]
-      let result = await connect.query(sql, values);
+      let values = [newPet.codigo_pet, newPet.nome_pet, newPet.genero_pet];
+      let result = await executeQuery(sql, values);
       return result;
     } catch (error) {
       throw new Error('Erro ao inserir pet no repositório: ' + error);
     }
   },
-  
+
   update: async function(petData) {
     try {
       const updatedPet = new Pet(petData.codigo_pet, petData.nome_pet, petData.genero_pet);
       let sql = "UPDATE pet SET nome_pet = ?, genero_pet = ? WHERE codigo_pet = ?;";
       let values = [updatedPet.nome_pet, updatedPet.genero_pet, updatedPet.codigo_pet];
-      let result = await connect.query(sql, values);
+      let result = await executeQuery(sql, values);
       return result;
     } catch (error) {
       throw new Error('Erro ao atualizar pet no repositório: ' + error);
     }
   },
-  
+
   delete: async function(codigo_pet) {
     try {
       if (codigo_pet === null || codigo_pet === undefined) {
@@ -32,7 +33,7 @@ const PetRepository = {
       }
       
       let sql = "DELETE FROM pet WHERE codigo_pet = ?;";
-      let result = await connect.query(sql, [codigo_pet]);
+      let result = await executeQuery(sql, [codigo_pet]);
       
       console.log(`Pet com código ${codigo_pet} deletado.`);
       return result;
@@ -40,7 +41,7 @@ const PetRepository = {
       throw new Error('Erro ao deletar pet no repositório: ' + error);
     }
   },
-  
+
   load: async function(codigo_pet) {
     try {
       if (codigo_pet === null || codigo_pet === undefined) {
@@ -48,7 +49,7 @@ const PetRepository = {
       }
       
       let sql = "SELECT * FROM pet WHERE codigo_pet = ?;";
-      let result = await connect.query(sql, [codigo_pet]);
+      let result = await executeQuery(sql, [codigo_pet]);
       
       if (result.length === 0) {
         throw new Error(`Pet com código ${codigo_pet} não encontrado.`);
@@ -64,7 +65,7 @@ const PetRepository = {
   loadAll: async function() {
     try {
       const sql = "SELECT * FROM pet";
-      const [rows] = await pool.query(sql);
+      const rows = await executeQuery(sql);
       
       return rows.map(row => new Pet(row.codigo_pet, row.nome_pet, row.genero_pet));
     } catch (error) {
