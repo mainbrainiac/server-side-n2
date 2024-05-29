@@ -1,0 +1,20 @@
+version: "3.2"
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_USER=mateus
+      - MYSQL_ROOT_PASSWORD=123
+      - MYSQL_PASSWORD=123
+    ports:
+      - "3306:3306"
+    networks:
+      - backend
+    volumes:
+      - mysql-volume:/var/lib/mysql
+      - ./mysql:/docker-entrypoint-initdb.d
+    container_name: node-mysql
+networks:
+  backend:
+volumes:
+  mysql-volume:

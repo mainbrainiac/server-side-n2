@@ -4,9 +4,9 @@ async function connect() {
     if (global.connection && global.connection.state !== 'disconnected') return global.connection
 
     const connection = await mysql2.createConnection({
-        host: 'localhost',
+        host: '172.25.0.2',
         user: 'root',
-        password: '',
+        password: '123',
         database: 'petshop'
     });
 
