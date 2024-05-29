@@ -1,6 +1,7 @@
 import executeQuery from '../../infra/utils.js';
 import Pet from '../../domain/entities/pet.js';
 
+
 const PetRepository = {
   create: async function(petData) {
     try {
@@ -10,7 +11,7 @@ const PetRepository = {
       let result = await executeQuery(sql, values);
       return result;
     } catch (error) {
-      throw new Error('Erro ao inserir pet no repositório: ' + error);
+      throw new Error('``Erro ao inserir pet no repositório: ' + error);
     }
   },
 
